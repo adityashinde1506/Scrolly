@@ -1,25 +1,11 @@
 import os
 import time
+from scrolly.Engine.controller import Controller
+from scrolly.GameObjects.player import Player
+from scrolly.AI.randomagent import RandomAgent
 
 
 size = 50
-
-
-class Player:
-    """
-        Defines a basic player.
-    """
-    def __init__(self,
-                 name="unnamed",
-                 pos=0):
-
-        self.name = name
-        self.pos = pos
-        self.prev_pos = None
-
-    def play(self, game):
-        self.prev_pos = self.pos
-        return 0
 
 
 def controller(game_object, game):
@@ -32,7 +18,7 @@ def controller(game_object, game):
 
 def handle_collisions(game_object):
     if game_object.pos >= size or game_object.pos < 0:
-        game_object.pos = game_object.prev_pos
+        game_object.reset_pos()
 
 
 def init_scene():
@@ -65,8 +51,19 @@ def loop():
     """
         Defines main game loop.
     """
-    aditya = Player(pos=45, name="Aditya")
-    enemy = Player(pos=15, name="Enemy")
+
+    # Define controller.
+    controller = Controller()
+
+    # Define players.
+    aditya = Player(pos=45,
+                    name="Aditya",
+                    ai=RandomAgent())
+
+    enemy = Player(pos=15,
+                   name="Enemy",
+                   ai=RandomAgent())
+
     scene = init_scene()
     objects = [aditya, enemy]
 
@@ -75,7 +72,7 @@ def loop():
         for obj in objects:
 
             # Control logic
-            controller(game_object=obj, game=scene[:])
+            controller.step(obj=obj, game=scene[:])
 
             # Collision logic
             handle_collisions(obj)
