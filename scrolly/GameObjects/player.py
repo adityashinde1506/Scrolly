@@ -67,6 +67,18 @@ class Player(BaseObject):
             self.debug(f"Armour underflow for {self._name}")
             self._armour = 0.1
 
+    @property
+    def health(self):
+        return self._health
+
+    @property
+    def strength(self):
+        return self._strength
+
+    @property
+    def armour(self):
+        return self._armour
+
     def play(self, game):
         self._prev_pos = self._pos
         return self._ai.play(game)

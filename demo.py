@@ -1,11 +1,15 @@
 import os
 import time
+import logging
 from scrolly.Engine.controller import Controller
-from scrolly.GameObjects.player import Player
+from scrolly.GameObjects.king import King
 from scrolly.AI.randomagent import RandomAgent
+from scrolly.Engine.engine import GameEngine
+
+size = 75
 
 
-size = 50
+logging.basicConfig(level=logging.DEBUG)
 
 
 def controller(game_object, game):
@@ -85,5 +89,19 @@ def loop():
             time.sleep(0.1)
 
 
+def new_loop():
+
+    size = 10
+
+    engine = GameEngine(size=size)
+    engine.add_object(King(name="Aditya", pos=2,
+                           ai=RandomAgent()))
+    engine.add_object(King(name="Enemy", pos=size-2,
+                           ai=RandomAgent()))
+
+    while 1:
+        engine.loop()
+
+
 if __name__ == "__main__":
-    loop()
+    new_loop()

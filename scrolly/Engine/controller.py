@@ -12,6 +12,10 @@ class Controller:
         self.actions = {0: "left",
                         1: "right"}
 
+        self.king_actions = {0: "nop",
+                             1: "left",
+                             2: "right"}
+
     def move_left(self, obj):
         obj.change_pos(by=-1)
 
@@ -23,10 +27,14 @@ class Controller:
             Steps through one of the object actions
         """
         action = obj.play(game)
-        self.logger.debug(f"{obj} chose action {self.actions[action]}")
 
-        if self.actions[action] == "left":
+        # Define actions for king.
+        if obj.__class__.__name__ == "King":
+            actions = self.king_actions
+            self.logger.debug(f"{obj} chose action {actions[action]}")
+
+        if actions[action] == "left":
             self.move_left(obj)
 
-        elif self.actions[action] == "right":
+        elif actions[action] == "right":
             self.move_right(obj)

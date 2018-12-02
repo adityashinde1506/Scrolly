@@ -11,6 +11,6 @@ class RandomAgent(Agent):
         self.logger = logging.getLogger(self.__class__.__name__)
 
     def play(self, game):
-        action = random.randint(0, 1)
+        action = random.randint(0, 2)
         self.logger.debug(f"Random Agent {self} chose {action}")
         return action
