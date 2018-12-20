@@ -13,7 +13,8 @@ class Player(BaseObject):
                  team="blue",
                  health=9,
                  strength=1,
-                 armour=1):
+                 armour=1,
+                 sprite=None):
 
         self.logger = logging.getLogger(__class__.__name__)
 
@@ -24,6 +25,11 @@ class Player(BaseObject):
         self._strength = strength
         self._armour = armour
         self._ai = ai
+
+        if sprite is None:
+            self._sprite = self._name[0]
+        else:
+            self._sprite = sprite
 
     def reset_pos(self):
         """
@@ -40,7 +46,7 @@ class Player(BaseObject):
         self.logger.debug(f"Strength for {self._name} increased {self._strength}")
 
         if self._strength > 9:
-            self.debug(f"Strength overflow for {self._name}")
+            self.logger.debug(f"Strength overflow for {self._name}")
             self._strength = 9
 
     def decrease_strength(self, by):
@@ -48,7 +54,7 @@ class Player(BaseObject):
         self.logger.debug(f"Strength for {self._name} decreased {self._strength}")
 
         if self._strength <= 0:
-            self.debug(f"Strength underflow for {self._name}")
+            self.logger.debug(f"Strength underflow for {self._name}")
             self._strength = 0.1
 
     def increase_armour(self, by):
@@ -56,7 +62,7 @@ class Player(BaseObject):
         self.logger.debug(f"Armour for {self._name} increased {self._armour}")
 
         if self._armour > 9:
-            self.debug(f"Armour overflow for {self._name}")
+            self.logger.debug(f"Armour overflow for {self._name}")
             self._armour = 9
 
     def decrease_armour(self, by):
@@ -64,7 +70,7 @@ class Player(BaseObject):
         self.logger.debug(f"Armour for {self._name} decreased {self._armour}")
 
         if self._armour <= 0:
-            self.debug(f"Armour underflow for {self._name}")
+            self.logger.debug(f"Armour underflow for {self._name}")
             self._armour = 0.1
 
     @property
@@ -78,6 +84,18 @@ class Player(BaseObject):
     @property
     def armour(self):
         return self._armour
+
+    @property
+    def _id(self):
+        return f"{self.name}_{self.team}"
+
+    @property
+    def team(self):
+        return self._team
+
+    @property
+    def sprite(self):
+        return self._sprite
 
     def play(self, game):
         self._prev_pos = self._pos

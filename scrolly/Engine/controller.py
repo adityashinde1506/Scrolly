@@ -9,8 +9,9 @@ class Controller:
 
     def __init__(self):
         self.logger = logging.getLogger(self.__class__.__name__)
-        self.actions = {0: "left",
-                        1: "right"}
+        self.actions = {0: "nop",
+                        1: "left",
+                        2: "right"}
 
         self.king_actions = {0: "nop",
                              1: "left",
@@ -32,6 +33,9 @@ class Controller:
         if obj.__class__.__name__ == "King":
             actions = self.king_actions
             self.logger.debug(f"{obj} chose action {actions[action]}")
+
+        else:
+            actions = self.actions
 
         if actions[action] == "left":
             self.move_left(obj)
